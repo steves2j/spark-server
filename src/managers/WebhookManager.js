@@ -190,9 +190,13 @@ class WebhookManager {
         webhookVariablesObject,
       );
 
-      const requestJson = this._compileJsonTemplate(
+      const requestJsonPre = this._compileJsonTemplate(
         webhook.json,
         webhookVariablesObject,
+      );
+      const requestJson = this._typedefJson(
+	webhook.datatypes,
+	requestJsonPre,
       );
 
       const requestFormData = this._compileJsonTemplate(
@@ -359,6 +363,7 @@ class WebhookManager {
       PARTICLE_EVENT_NAME: event.name,
       PARTICLE_EVENT_VALUE: event.data,
       PARTICLE_PUBLISHED_AT: event.publishedAt,
+      PRODUCT_USER_ID: event.userID,
       // old event names, added for compatibility
       SPARK_CORE_ID: event.deviceID,
       SPARK_EVENT_NAME: event.name,
@@ -411,6 +416,20 @@ class WebhookManager {
     return JSON.parse(compiledTemplate);
   };
 
+  _typedefJson = (template?: ?Object, json: Object): ?Object => {
+    for(var att in template){
+      if (json.hasOwnProperty(att)){
+	if (template[att]==="number") {
+		json[att]=parseInt(json[att]);
+	} else if (template[att]==="float") {
+		json[att]=parseFloat(json[att]);
+	} else if (template[att]==="boolean") {
+		json[att]=json[att]==="true" || json[att]==="1" || json[att]==="255" || json[att]==="HIGH";
+	}
+      } 
+    }
+    return json;
+  };
   _compileErrorResponseTopic = (webhook: Webhook, event: Event): string => {
     const variables = this._getEventVariables(event);
     return (

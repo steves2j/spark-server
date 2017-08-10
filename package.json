@@ -92,7 +92,7 @@
     "ec-key": "0.0.2",
     "express": "^4.14.0",
     "express-oauth-server": "^2.0.0-b3",
-    "hogan.js": "^3.0.2",
+    "hogan.js": "git+https://github.com/steves2j/hogan.js.git",
     "lodash": "^4.17.4",
     "mkdirp": "^0.5.1",
     "moment": "*",
@@ -104,7 +104,7 @@
     "nullthrows": "^1.0.0",
     "request": "*",
     "rmfr": "^1.0.1",
-    "spark-protocol": "git+https://github.com/Brewskey/spark-protocol.git#dev",
+    "spark-protocol": "git+https://github.com/steves2j/spark-protocol.git#dev",
     "uuid": "^3.0.1"
   },
   "devDependencies": {

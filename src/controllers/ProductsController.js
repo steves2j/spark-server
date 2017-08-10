@@ -50,7 +50,7 @@ class ProductsController extends Controller {
     productFirmwareRepository: IProductFirmwareRepository,
   ) {
     super();
-
+	this._deviceManager = deviceManager
     this._deviceAttributeRepository = deviceAttributeRepository;
     this._organizationRepository = organizationRepository;
     this._productConfigRepository = productConfigRepository;

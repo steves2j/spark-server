@@ -14,6 +14,7 @@ export type Webhook = {
   headers?: { [key: string]: string },
   id: string,
   json?: { [key: string]: Object },
+  datatypes?: { [key: string]: string },
   mydevices?: boolean,
   noDefaults?: boolean,
   ownerID: string,
@@ -102,6 +103,7 @@ export type EventData = {
   name: string,
   ttl?: number,
   userID: string,
+  username: string,
 };
 
 export type GrantType = 'bearer_token' | 'password' | 'refresh_token';

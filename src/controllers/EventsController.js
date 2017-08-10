@@ -2,6 +2,7 @@
 
 import type { Event, EventData } from '../types';
 import type EventManager from '../managers/EventManager';
+import type { Settings } from './types';
 
 import Controller from './Controller';
 import anonymous from '../decorators/anonymous';
@@ -9,6 +10,7 @@ import route from '../decorators/route';
 import httpVerb from '../decorators/httpVerb';
 import serverSentEvents from '../decorators/serverSentEvents';
 import eventToApi from '../lib/eventToApi';
+import settings from '../settings';
 import Logger from '../lib/logger';
 const logger = Logger.createModuleLogger(module);
 
@@ -59,10 +61,19 @@ class EventsController extends Controller {
   @route('/v1/events/:eventNamePrefix?*')
   @serverSentEvents()
   async getEvents(eventNamePrefix: ?string): Promise<*> {
+	logger.debug("get all Events with prefix ["+eventNamePrefix+"] for user ["+this.user.username+"]"); 
+	var mydevicesOnly = false;
+	if (settings.DENY_GLOBAL_EVENTS && this.user.username!==settings.DEFAULT_ADMIN_USERNAME) {
+		mydevicesOnly = true;
+		logger.debug("Users devices only");
+	}
     const subscriptionID = this._eventManager.subscribe(
       eventNamePrefix,
       this._pipeEvent.bind(this),
-      { userID: this.user.id },
+      { 
+		mydevices: mydevicesOnly,
+		userID: this.user.id 
+	  },
     );
 
     await this._closeStream(subscriptionID);

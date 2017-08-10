@@ -39,6 +39,8 @@ export default {
   CRYPTO_ALGORITHM: 'aes-128-cbc',
   LOG_LEVEL: (process.env.LOG_LEVEL: any) || 'info',
   LOGIN_ROUTE: '/oauth/token',
+  DENY_PUBLIC_CREATE: true,
+  DENY_GLOBAL_EVENTS: true,
   EXPRESS_SERVER_CONFIG: {
     PORT: 8080,
     SSL_CERTIFICATE_FILEPATH: null,
